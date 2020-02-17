@@ -1,6 +1,8 @@
 package com.darryl.activiti;
 
 import org.activiti.engine.*;
+import org.activiti.engine.history.HistoricTaskInstance;
+import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -120,7 +122,7 @@ public class ActivitiApplicationTests {
      * 查询经办人目前的task
      * id=0cc0cfe0-4cac-11ea-b0ef-b8763fc3091d
      * name=项目组长
-     * assinee=张三
+     * assinee=张三 --> Darryl
      * create time=Tue Feb 11 16:54:01 CST 2020
      * executionId=0cb759fd-4cac-11ea-b0ef-b8763fc3091d
      *
@@ -172,6 +174,5 @@ public class ActivitiApplicationTests {
         processEngine.getTaskService().claim(taskId, userId);
 
     }
-
 
 }

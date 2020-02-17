@@ -1,5 +1,10 @@
 package com.darryl.activiti.api;
 
+import com.darryl.activiti.api.command.DeleteTaskCmd;
+import com.darryl.activiti.api.command.Jump2TargetFlowNodeCommand;
+import com.darryl.activiti.api.command.SetFLowNodeAndGoCmd;
+import org.activiti.bpmn.model.FlowNode;
+import org.activiti.bpmn.model.Process;
 import org.activiti.engine.*;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -65,7 +70,7 @@ public class ActivitiUtil {
      * @param assignee 指定用户
      * @return 指定用户的当前任务列表
      */
-    public static List<Task> findMyProcessTask(String assignee) {
+    public static List<Task> findProcessTask(String assignee) {
         return taskService.createTaskQuery().taskAssignee(assignee).list();
     }
 
@@ -86,6 +91,43 @@ public class ActivitiUtil {
     public static void claim(String taskId, String userId) {
         taskService.claim(taskId, userId);
         log.debug("任务id: {}, 被分配给用户： {} 处理。",taskId, userId);
+    }
+
+    /**
+     * 转办流程
+     * @param taskId 当前任务节点ID
+     * @param userId 被转办人id
+     */
+    public static boolean transferAssignee(String taskId, String userId) {
+        try {
+            taskService.setAssignee(taskId, userId);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * 跳转到指定流程节点
+     * @param curTaskId 当前任务
+     * @param targetFlowNodeId 指定的流程节点ID 比如跳转<endEvent id="endevent1" name="End"></endEvent> ，则targetFlowNodeId为endevent1
+     */
+    public static void jump2TargetFlowNode(String curTaskId, String targetFlowNodeId) {
+        managermentService.executeCommand(new Jump2TargetFlowNodeCommand(curTaskId, targetFlowNodeId));
+    }
+
+    // 跳转方法
+    public static void jump(String taskId, String targetFlowNodeId) {
+        // 当前任务
+        Task currentTask = taskService.createTaskQuery().taskId(taskId).singleResult();
+        // 获取流程定义
+        Process process = repositoryService.getBpmnModel(currentTask.getProcessDefinitionId()).getMainProcess();
+        // 获取目标节点定义
+        FlowNode targetNode = (FlowNode) process.getFlowElement(targetFlowNodeId);
+        // 删除当前运行任务
+        String executionEntityId = managermentService.executeCommand(new DeleteTaskCmd(currentTask.getId()));
+        // 流程执行到来源节点
+        managermentService.executeCommand(new SetFLowNodeAndGoCmd(targetNode, executionEntityId));
     }
 
 }
