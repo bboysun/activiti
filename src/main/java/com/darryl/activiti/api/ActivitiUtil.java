@@ -6,6 +6,7 @@ import com.darryl.activiti.api.command.SetFLowNodeAndGoCmd;
 import org.activiti.bpmn.model.FlowNode;
 import org.activiti.bpmn.model.Process;
 import org.activiti.engine.*;
+import org.activiti.engine.history.HistoricActivityInstance;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -130,7 +131,28 @@ public class ActivitiUtil {
     }
 
     /**
-     * 跳转到指定流程节点
+     * 获取一个工作流程的所有已完成的任务节点信息
+     * @param processInstanceId 流程实例id
+     * @return
+     */
+    public static List<HistoricActivityInstance> findHistoryActivityInstance(String processInstanceId) {
+        List<HistoricActivityInstance> list = historyService.createHistoricActivityInstanceQuery()
+                .processInstanceId(processInstanceId)
+                .finished().list();
+        for (HistoricActivityInstance hai : list) {
+            log.debug("活动ID:{}", hai.getId());
+            log.debug("流程实例ID:{}", hai.getProcessInstanceId());
+            log.debug("活动名称：{}", hai.getActivityName());
+            log.debug("办理人：{}", hai.getAssignee());
+            log.debug("开始时间：{}", hai.getStartTime());
+            log.debug("结束时间：{}", hai.getEndTime());
+            log.debug("##################################");
+        }
+        return list;
+    }
+
+    /**
+     * 跳转到指定流程节点 方法1
      * @param curTaskId 当前任务
      * @param targetFlowNodeId 指定的流程节点ID 比如跳转<endEvent id="endevent1" name="End"></endEvent> ，则targetFlowNodeId为endevent1
      */
@@ -138,7 +160,11 @@ public class ActivitiUtil {
         managermentService.executeCommand(new Jump2TargetFlowNodeCommand(curTaskId, targetFlowNodeId));
     }
 
-    // 跳转方法
+    /**
+     * 跳转到指定流程节点 方法2
+     * @param taskId 当前任务
+     * @param targetFlowNodeId 需要跳转的节点id
+     */
     public static void jump(String taskId, String targetFlowNodeId) {
         // 当前任务
         Task currentTask = taskService.createTaskQuery().taskId(taskId).singleResult();
