@@ -1,6 +1,7 @@
 package com.darryl.activiti;
 
 import org.activiti.engine.*;
+import org.activiti.engine.history.HistoricActivityInstance;
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.repository.Deployment;
@@ -42,12 +43,68 @@ public class ActivitiApplicationTests {
     public ActivitiApplicationTests() {
     }
 
+    /**
+     * 工作流全流程
+     */
+    @Test
+    public void workflow() {
+        // 1.部署
+        ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+        //由流程引擎创建各service
+        RepositoryService repositoryService = processEngine.getRepositoryService();
+
+        System.out.println("classpath is : " + Thread.currentThread().getContextClassLoader().getResource(""));
+        //与流程定义和部署对象相关的service//创建一个部署对象//添加部署的名称//从classpath资源中加载文件,一次加载一个(相对路径)//部署
+        Deployment deployment = repositoryService.createDeployment()
+                .name("workflow")
+                .addClasspathResource("processes/workflow.bpmn")
+                .deploy();
+        System.out.println("deployment id: " + deployment.getId());
+
+        // 2.获取流程定义，根据deployment id
+        ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).singleResult();
+        System.out.println("processDefinition id: " + processDefinition.getId());
+
+        // 3.启动流程，根据流程定义的id获取对应的流程实例
+        RuntimeService runtimeService = processEngine.getRuntimeService();
+        ProcessInstance processInstance = runtimeService.startProcessInstanceById(processDefinition.getId());
+        System.out.println("processInstance id: " + processInstance.getId());
+
+
+        // 4.获取指定用户在启动流程的任务节点
+        TaskService taskService=processEngine.getTaskService();
+        String assignee = "张三";
+        Task task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).taskAssignee(assignee).singleResult();
+        System.out.println("task id: " + task.getId());
+
+
+        // 5.完成该任务，根据任务id，当该任务在流程中是最后一个任务时，再被完成后不会出现在ACT_RU_TASK表中
+        taskService.complete(task.getId());
+
+        // 6.获取该流程历史相关Service，根据流程实例的id
+        System.out.println("----------------------------------流程实例流转-----------------------");
+        HistoryService historyService=processEngine.getHistoryService();
+        List<HistoricActivityInstance> list = historyService.createHistoricActivityInstanceQuery()
+                .processInstanceId(processInstance.getId())
+                .finished().list();
+        for (HistoricActivityInstance hai : list) {
+            System.out.println("活动ID:" + hai.getId());
+            System.out.println("流程实例ID:" + hai.getProcessInstanceId());
+            System.out.println("活动名称：" + hai.getActivityName());
+            System.out.println("办理人：" + hai.getAssignee());
+            System.out.println("开始时间：" + hai.getStartTime());
+            System.out.println("结束时间：" + hai.getEndTime());
+            System.out.println("=================================");
+        }
+    }
+
     // 部署一个工作流
     @Test
     public void deploymenyProcessDefinition() {
         ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
         //由流程引擎创建各service
         RepositoryService repositoryService = processEngine.getRepositoryService();
+
 
         System.out.println("classpath is : " + Thread.currentThread().getContextClassLoader().getResource(""));
         //与流程定义和部署对象相关的service//创建一个部署对象//添加部署的名称//从classpath资源中加载文件,一次加载一个(相对路径)//部署
@@ -148,12 +205,14 @@ public class ActivitiApplicationTests {
         }
     }
 
-    //完成任务
+    /**
+     * taskid = c19f0a12-4d4c-11ea-a07c-b8763fc3091d
+     */
     @Test
     public void completeTask() {
         ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
-        String taskId = "1b86a71a-4ccc-11ea-90c9-b8763fc3091d";
-        processEngine.getTaskService().complete(taskId);//
+        String taskId = "c19f0a12-4d4c-11ea-a07c-b8763fc3091d";
+        processEngine.getTaskService().complete(taskId);
 
         System.out.println("完成任务");
 
@@ -173,6 +232,30 @@ public class ActivitiApplicationTests {
         ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
         processEngine.getTaskService().claim(taskId, userId);
 
+    }
+
+    /**
+     * processInstance.getId() = 1b7f7b26-4ccc-11ea-90c9-b8763fc3091d  已完成流程没有
+     * 82c4b6fa-4cab-11ea-9449-b8763fc3091d
+     */
+    @Test
+    public void getHistoryActivityInstance() {
+        ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+
+        System.out.println("----------------------------------流程实例流转-----------------------");
+        HistoryService historyService=processEngine.getHistoryService();
+        List<HistoricActivityInstance> list = historyService.createHistoricActivityInstanceQuery()
+                .processInstanceId("1b7f7b26-4ccc-11ea-90c9-b8763fc3091d")
+                .finished().list();
+        for (HistoricActivityInstance hai : list) {
+            System.out.println("活动ID:" + hai.getId());
+            System.out.println("流程实例ID:" + hai.getProcessInstanceId());
+            System.out.println("活动名称：" + hai.getActivityName());
+            System.out.println("办理人：" + hai.getAssignee());
+            System.out.println("开始时间：" + hai.getStartTime());
+            System.out.println("结束时间：" + hai.getEndTime());
+            System.out.println("*************************************");
+        }
     }
 
 }

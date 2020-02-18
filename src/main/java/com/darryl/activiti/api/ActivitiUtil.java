@@ -7,6 +7,7 @@ import org.activiti.bpmn.model.FlowNode;
 import org.activiti.bpmn.model.Process;
 import org.activiti.engine.*;
 import org.activiti.engine.repository.Deployment;
+import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.slf4j.Logger;
@@ -44,7 +45,7 @@ public class ActivitiUtil {
      * @param name 部署的名称
      * @param path bpmn文件路径
      */
-    public static void deploymenyProcessDefinition(String name, String path) {
+    public static Deployment deploymenyProcessDefinition(String name, String path) {
         //与流程定义和部署对象相关的service//创建一个部署对象//添加部署的名称//从classpath资源中加载文件,一次加载一个(相对路径)//部署
         Deployment deployment = repositoryService.createDeployment()
                 .name(name)
@@ -52,6 +53,7 @@ public class ActivitiUtil {
                 .deploy();
         log.debug("流程Id: {}", deployment.getId());
         log.debug("流程名称: {}", deployment.getName());
+        return deployment;
     }
 
     /**
@@ -63,6 +65,26 @@ public class ActivitiUtil {
         ProcessInstance pi = runtimeService.startProcessInstanceByKey(processDedinitionKey);
         log.debug("流程实例id: {}", pi.getId());
         log.debug("流程定义id: {}", pi.getProcessDefinitionId());
+    }
+
+    /**
+     * 查看所有流程
+     * @return 所有流程
+     */
+    public static List<ProcessDefinition> findProcessDefinition() {
+        return repositoryService.createProcessDefinitionQuery()
+                .orderByProcessDefinitionVersion().asc()
+                .list();
+    }
+
+    /**
+     * 指定的deployment id，查看对应的流程
+     * @param deploymentId 部署后返回的Deployment对象获取，Deployment.getId()
+     * @return 对应的流程
+     */
+    public static ProcessDefinition findProcessDefinition(String deploymentId) {
+        return repositoryService.createProcessDefinitionQuery().deploymentId(deploymentId).singleResult();
+
     }
 
     /**
