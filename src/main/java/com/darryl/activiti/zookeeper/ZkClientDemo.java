@@ -16,8 +16,6 @@ public class ZkClientDemo {
 
     private CuratorFramework zkClient;
 
-    //private String connectPath = "localhost:2181";
-
     private static String path = "/darryl_test/go";
 
     private static int num = 0;
