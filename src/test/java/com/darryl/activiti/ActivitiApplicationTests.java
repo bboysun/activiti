@@ -56,7 +56,7 @@ public class ActivitiApplicationTests {
         System.out.println("classpath is : " + Thread.currentThread().getContextClassLoader().getResource(""));
         //与流程定义和部署对象相关的service//创建一个部署对象//添加部署的名称//从classpath资源中加载文件,一次加载一个(相对路径)//部署
         Deployment deployment = repositoryService.createDeployment()
-                .name("workflow")
+                .name("workflow_darryl")
                 .addClasspathResource("processes/workflow.bpmn")
                 .deploy();
         System.out.println("deployment id: " + deployment.getId());
