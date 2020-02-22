@@ -28,7 +28,20 @@ public class ZkClientDemo {
         ZkClientDemo demo = new ZkClientDemo("localhost:2181");
         demo.zkClient.start();
         // nodecache test
-        demo.nodeCacheDemo(demo.zkClient);
+        //demo.nodeCacheDemo(demo.zkClient);
+        // zookeeper transaction operation
+        demo.zkTransaction(demo.zkClient);
+    }
+
+    // zk 事务处理
+    public void zkTransaction(CuratorFramework zkClient) {
+        try {
+            zkClient.inTransaction().create().forPath("/transaction","123".getBytes())
+                    .and().delete().forPath("/darryl_test").and().commit();
+        } catch (Exception e) {
+            System.out.println("异常出现后，同一个事务中的操作是都要回滚的.");
+            e.printStackTrace();
+        }
     }
 
     // nodecache 测试
