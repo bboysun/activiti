@@ -8,16 +8,11 @@ package com.darryl.activiti.design_pattern.proxy_pattern;
 
 public class ProxyDemo {
 
-
     public static void main(String[] args) {
         ProxyRealImage proxyRealImage = new ProxyRealImage("123.txt");
-
         proxyRealImage.display();
         System.out.println();
-
         proxyRealImage.display();
-
-
     }
 
 }
