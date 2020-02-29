@@ -1,4 +1,4 @@
-package com.darryl.activiti.api.command;
+package com.darryl.activiti.api.activiti.command;
 
 import org.activiti.bpmn.model.FlowNode;
 import org.activiti.bpmn.model.SequenceFlow;
