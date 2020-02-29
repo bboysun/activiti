@@ -1,4 +1,4 @@
-package com.darryl.activiti.activit_api.command;
+package com.darryl.activiti.api.activiti.command;
 
 import org.activiti.bpmn.model.FlowElement;
 import org.activiti.bpmn.model.Process;

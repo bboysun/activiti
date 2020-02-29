@@ -1,4 +1,4 @@
-package com.darryl.activiti.activit_api;
+package com.darryl.activiti.api.activiti;
 
 /**
  * @Auther: Darryl
