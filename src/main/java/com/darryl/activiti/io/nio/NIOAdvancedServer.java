@@ -6,6 +6,7 @@ import org.jboss.netty.channel.ServerChannel;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
+import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.Charset;
@@ -22,7 +23,7 @@ public class NIOAdvancedServer {
     public static void main(String[] args) {
         ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
         List<SocketChannel> list = Lists.newArrayList();
-
+        //Selector
         try {
             ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
             serverSocketChannel.bind(new InetSocketAddress(8080));
