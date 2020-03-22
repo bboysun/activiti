@@ -15,6 +15,7 @@ spring:
     # 使用druid数据源
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.jdbc.Driver
+    
   # activiti
   activiti:
     database-schema-update: true
