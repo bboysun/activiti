@@ -1,7 +1,5 @@
 package com.darryl.activiti.jvm_class_load;
 
-import javax.jnlp.PersistenceService;
-
 /**
  * @Auther: Darryl
  * @Description: 人  equals相等，hashcode不等，没啥意义

@@ -30,7 +30,8 @@ public class Candy {
         // max[n] 表示n个糖果屋最大的糖果数，
         // 那么max[n] = max(arr[n-1] + max[n-2], arr[n-2] + max[n-3])
         for (int i=3; i<=arr.length; i++) {
-            max[i] = arr[i-1] + max[i-2] > arr[i-2] + max[i-3] ? arr[i-1] + max[i-2] : arr[i-2] + max[i-3];
+            max[i] = arr[i-1] + max[i-2] > arr[i-2] + max[i-3] ?
+                    arr[i-1] + max[i-2] : arr[i-2] + max[i-3];
         }
         // 返回n个糖果屋的最大糖果数
         return max[arr.length];

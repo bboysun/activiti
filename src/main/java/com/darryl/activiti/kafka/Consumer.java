@@ -58,6 +58,7 @@ public class Consumer implements Runnable{
                         " | offset:" + record.offset() + " | topic:" + record.topic() +
                         " | partition:" + record.partition());
             });
+
         }
     }
 
