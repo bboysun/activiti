@@ -1,6 +1,7 @@
 package com.darryl.activiti.jvm_class_load;
 
 import com.darryl.activiti.design_pattern.proxy_pattern.ProxyDemo;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import java.util.*;
@@ -23,6 +24,21 @@ public class LoadService {
     private String str;
 
     public static void main(String[] args) {
+        LinkedList<String> linkedList = new LinkedList<>();
+        linkedList.add("darryl");
+
+        ArrayList<String> arrayList = new ArrayList<>(4);
+        arrayList.add("1");
+        arrayList.add("2");
+        arrayList.add("3");
+        arrayList.add("4");
+        System.out.println(arrayList.size());
+        arrayList.add("5");
+        System.out.println(arrayList.size());
+
+
+
+
         // 方法中的局部变量是存储在jvm虚拟机栈中的，每个方法在虚拟机栈中有个栈帧，这个变量就在栈帧中存储
         // 需要手动初始化值
         int b = 3;
