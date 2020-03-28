@@ -11,7 +11,7 @@ package com.darryl.activiti.algorithm;
 public class Candy {
 
     public static void main(String[] args) {
-        int[] candyHome = {2,4,1,6,3,3};
+        int[] candyHome = {4,2,1,7};
         System.out.println(solution(candyHome));
     }
 
