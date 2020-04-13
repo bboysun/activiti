@@ -1,6 +1,5 @@
 package com.darryl.activiti.lock;
 
-import com.sun.corba.se.impl.orbutil.concurrent.Sync;
 
 import java.util.concurrent.CountDownLatch;
 
