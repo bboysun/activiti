@@ -1,7 +1,5 @@
 package com.darryl.activiti.jvm_class_load;
 
-import com.darryl.activiti.design_pattern.proxy_pattern.ProxyDemo;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import java.util.*;

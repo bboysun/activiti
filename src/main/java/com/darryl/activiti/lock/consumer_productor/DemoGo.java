@@ -16,7 +16,7 @@ public class DemoGo {
         List<Thread> consumers = Lists.newArrayList();
         String lock = "lock";
         Clothes clothes = new Clothes();
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 10; i++) {
             Productor productor = new Productor(lock);
             Consumer consumer = new Consumer(lock);
 
@@ -34,11 +34,10 @@ public class DemoGo {
         }
         try {
             Thread.sleep(10000);
-            for (int i=0; i<2; i++) {
+            for (int i=0; i<10; i++) {
                 System.out.println(productors.get(i).getName() + "状态：" +
                         productors.get(i).getState());
-                System.out.println(consumers.get(i).getName() + "状态：" +
-                        consumers.get(i).getState());
+                System.out.println(consumers.get(i).getName() + "状态：" + consumers.get(i).getState());
             }
         } catch (InterruptedException e) {
             e.printStackTrace();

@@ -17,17 +17,19 @@ public class Consumer implements Runnable {
 
     @Override
     public void run() {
-        while (StringUtils.isEmpty(Clothes.color)) {
-            System.out.println(Thread.currentThread().getName() + "，WAITING...");
-            try {
-                lock.wait();
-            } catch (InterruptedException e) {
-                System.out.println(Thread.currentThread().getName() + "异常了");
-                //e.printStackTrace();
+        synchronized (lock) {
+            while (StringUtils.isEmpty(Clothes.color)) {
+                System.out.println("***" + Thread.currentThread().getName() + "，WAITING...");
+                try {
+                    lock.wait();
+                } catch (InterruptedException e) {
+                    System.out.println(Thread.currentThread().getName() + "异常了");
+                    //e.printStackTrace();
+                }
             }
+            System.out.println(Thread.currentThread().getName() + "，RUNNABLE...");
+            Clothes.color = "";
+            lock.notify();
         }
-        System.out.println(Thread.currentThread().getName() + "，RUNNABLE...");
-        Clothes.color = "";
-        lock.notify();
     }
 }
