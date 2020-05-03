@@ -6,6 +6,7 @@ import com.darryl.activiti.business.UserInfoService;
 import com.darryl.activiti.entity.UserInfoBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -26,12 +27,17 @@ public class UserInfoController {
         return record;
     }
 
-    @GetMapping("/getInfoListPage")
-    public IPage<UserInfoBean> getInfoListPage(){
+    @GetMapping("/getFirstUserInfo")
+    public UserInfoBean getFirstUserInfo() {
+        return new UserInfoBean(1L, "小明", 20, "画画", "该学生在画画方面有一定天赋", 89L);
+    }
+
+    @PostMapping("/getInfoListPage")
+    public IPage<UserInfoBean> getInfoListPage(int currentpage, int pageSize){
         //需要在Config配置类中配置分页插件
         IPage<UserInfoBean> page = new Page<>();
-        page.setCurrent(5); //当前页
-        page.setSize(2);    //每页条数
+        page.setCurrent(currentpage); //当前页
+        page.setSize(pageSize);    //每页条数
         page = userInfoService.page(page);
         return page;
     }

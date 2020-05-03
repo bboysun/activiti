@@ -47,4 +47,12 @@ public class UserInfoBean {
      */
     private Long fraction;
 
+    public UserInfoBean(Long id, String name, Integer age, String skill, String evaluate, Long fraction) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.skill = skill;
+        this.evaluate = evaluate;
+        this.fraction = fraction;
+    }
 }
