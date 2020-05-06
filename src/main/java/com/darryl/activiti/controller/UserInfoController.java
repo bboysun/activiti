@@ -7,6 +7,7 @@ import com.darryl.activiti.entity.UserInfoBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -33,10 +34,10 @@ public class UserInfoController {
     }
 
     @PostMapping("/getInfoListPage")
-    public IPage<UserInfoBean> getInfoListPage(int currentpage, int pageSize){
+    public IPage<UserInfoBean> getInfoListPage(Integer currentPage, Integer pageSize){
         //需要在Config配置类中配置分页插件
         IPage<UserInfoBean> page = new Page<>();
-        page.setCurrent(currentpage); //当前页
+        page.setCurrent(currentPage); //当前页
         page.setSize(pageSize);    //每页条数
         page = userInfoService.page(page);
         return page;
