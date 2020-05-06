@@ -112,6 +112,12 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.62</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin -->
+        <dependency>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>0.8.3</version>
+        </dependency>
 
     </dependencies>
 
@@ -120,6 +126,54 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <!--单元测试覆盖率统计-->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.3</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**/com/darryl/activiti/algorithm/**</exclude>
+                        <exclude>**/com/darryl/activiti/api/**</exclude>
+                        <exclude>**/com/darryl/activiti/config/**</exclude>
+                        <exclude>**/com/darryl/activiti/dao/**</exclude>
+                        <exclude>**/com/darryl/activiti/entity/**</exclude>
+                        <exclude>**/com/darryl/activiti/io/**</exclude>
+                        <exclude>**/com/darryl/activiti/jvm_class_load/**</exclude>
+                        <exclude>**/com/darryl/activiti/kafka/**</exclude>
+                        <exclude>**/com/darryl/activiti/redis/**</exclude>
+                        <exclude>**/com/darryl/activiti/spring/**</exclude>
+                        <exclude>**/com/darryl/activiti/thread/**</exclude>
+                        <exclude>**/com/darryl/activiti/zookeeper/**</exclude>
+                    </excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>post-unit-test</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <configuration>
+                            <dataFile>target/jacoco.exec</dataFile>
+                            <outputDirectory>target/jacoco-ut</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
         <!--<resources>

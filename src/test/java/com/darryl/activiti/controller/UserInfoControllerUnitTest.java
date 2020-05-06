@@ -48,21 +48,21 @@ public class UserInfoControllerUnitTest {
 				"该学生在画画方面有一定天赋", 89L));
 	}
 
-	@Test
-	public void getInfoListPage() {
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-		MultiValueMap<String, Integer> requestBody = new LinkedMultiValueMap<>();
-		requestBody.add("currentPage", 0);
-		requestBody.add("pageSize", 5);
-		HttpEntity<MultiValueMap<String, Integer>> requestEntity = new HttpEntity<>(requestBody, headers);
-		IPage iPageResponse = restTemplate.postForObject("/getInfoListPage", requestEntity, IPage.class);
-		Assert.assertEquals(iPageResponse.getRecords().size(), 5);
-		//System.out.println("response is " + iPageResponse.getRecords());
-//		List<UserInfoBean> userInfoBeans = JSON.parseArray(iPageResponse.getRecords(), UserInfoBean.class);
-//		Assertions.assertThat(userInfoBeans).contains(new UserInfoBean(1L, "小明", 20, "画画",
-//				"该学生在画画方面有一定天赋", 89L));
-	}
+//	@Test
+//	public void getInfoListPage() {
+//		HttpHeaders headers = new HttpHeaders();
+//		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+//		MultiValueMap<String, Integer> requestBody = new LinkedMultiValueMap<>();
+//		requestBody.add("currentPage", 0);
+//		requestBody.add("pageSize", 5);
+//		HttpEntity<MultiValueMap<String, Integer>> requestEntity = new HttpEntity<>(requestBody, headers);
+//		IPage iPageResponse = restTemplate.postForObject("/getInfoListPage", requestEntity, IPage.class);
+//		Assert.assertEquals(iPageResponse.getRecords().size(), 5);
+//		//System.out.println("response is " + iPageResponse.getRecords());
+////		List<UserInfoBean> userInfoBeans = JSON.parseArray(iPageResponse.getRecords(), UserInfoBean.class);
+////		Assertions.assertThat(userInfoBeans).contains(new UserInfoBean(1L, "小明", 20, "画画",
+////				"该学生在画画方面有一定天赋", 89L));
+//	}
 
 
 }
