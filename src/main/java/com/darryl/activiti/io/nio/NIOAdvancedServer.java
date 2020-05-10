@@ -1,12 +1,10 @@
 package com.darryl.activiti.io.nio;
 
 import com.google.common.collect.Lists;
-import org.jboss.netty.channel.ServerChannel;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
-import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.Charset;
