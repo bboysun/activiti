@@ -21,7 +21,9 @@ public class LimitFlowDemo {
 
 
     private static Jedis getClient() {
-        return jedisPool.getResource();
+        Jedis jedis = jedisPool.getResource();
+        jedis.auth("7878");
+        return jedis;
     }
 
     private boolean limitFlowOne(Jedis jedis){
@@ -67,6 +69,7 @@ public class LimitFlowDemo {
         }*/
 
         Jedis client = LimitFlowDemo.getClient();
+
         String res = client.rpop(LIMIT);
         if (res == null)
             System.out.println("已被限流");

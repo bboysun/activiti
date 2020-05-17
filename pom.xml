@@ -36,6 +36,13 @@
             </exclusions>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.xuxueli/xxl-job-core -->
+        <dependency>
+            <groupId>com.xuxueli</groupId>
+            <artifactId>xxl-job-core</artifactId>
+            <version>2.2.0</version>
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/com.alibaba/druid -->
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -105,6 +112,25 @@
             <artifactId>jacoco-maven-plugin</artifactId>
             <version>0.8.3</version>
         </dependency>
+
+        <!--因为我本地是JDK14的关系，groovy最高支持到JDK8，所以需要以下依赖-->
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>2.3.0</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.activation</groupId>
+            <artifactId>javax.activation-api</artifactId>
+            <version>1.2.0</version>
+        </dependency>
+        <!--因为我本地是JDK14的关系，groovy最高支持到JDK8，所以需要以上依赖-->
 
     </dependencies>
 
